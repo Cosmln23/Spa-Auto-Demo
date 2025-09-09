@@ -6,8 +6,9 @@ export default function DesktopShell({ children }: PropsWithChildren) {
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div className="aura-blob" />
       </div>
-      <section className="mx-auto max-w-[1400px] px-6 py-10">{children}</section>
+      <section className="mx-auto max-w-[1400px] px-6 py-10">
+        {children}
+      </section>
     </main>
   );
 }
-

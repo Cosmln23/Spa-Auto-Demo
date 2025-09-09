@@ -7,6 +7,7 @@ Server Node.js separat (în `Documentatie/docs/local-server.js`) care expune doc
 - Sursă: fișiere `doc_XXX.html` din `./Documentatie/docs` și maparea din `Documentatie/docs/README.md`
 
 Endpoint-uri
+
 - `GET /list`
   - Returnează: `{ total, items: { id, file, title, subject?, url?, sizeBytes }[] }`
   - `title` extras din `<title>` (fallback nume fișier)
@@ -23,6 +24,7 @@ Endpoint-uri
   - `snippet` ≈ 240 caractere în jurul primei potriviri
 
 Pornire (dev)
+
 - `npm run docs:server` (ascultă pe `http://localhost:4010`)
 - Exemplu:
   - `http://localhost:4010/list`
@@ -31,5 +33,6 @@ Pornire (dev)
   - `http://localhost:4010/search?q=Route%20Handlers`
 
 Motivație
+
 - Izolare completă: server separat, fără coliziune cu rutele aplicației Next
 - Fără web: consumă exclusiv fișierele locale din `./Documentatie/docs`

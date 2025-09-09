@@ -2,7 +2,9 @@
 import { useMemo } from 'react';
 
 function toHM(n: number) {
-  const h = Math.floor(n / 60).toString().padStart(2, '0');
+  const h = Math.floor(n / 60)
+    .toString()
+    .padStart(2, '0');
   const m = (n % 60).toString().padStart(2, '0');
   return `${h}:${m}`;
 }
@@ -36,7 +38,9 @@ export default function AvailabilityList({
 
   return (
     <section className="p-4 rounded-xl border border-white/10 bg-neutral-900/40">
-      <h3 className="text-sm text-neutral-300 mb-3">Sloturi disponibile — {ymd}</h3>
+      <h3 className="text-sm text-neutral-300 mb-3">
+        Sloturi disponibile — {ymd}
+      </h3>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
         {slots.map((hm) => {
           const isBooked = booked.includes(hm);
@@ -60,4 +64,3 @@ export default function AvailabilityList({
     </section>
   );
 }
-

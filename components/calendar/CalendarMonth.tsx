@@ -45,10 +45,18 @@ export default function CalendarMonth({
 }) {
   const [viewYear, setViewYear] = useState(value.getFullYear());
   const [viewMonth, setViewMonth] = useState(value.getMonth());
-  const viewDays = useMemo(() => buildMonthMatrix(viewYear, viewMonth), [viewYear, viewMonth]);
+  const viewDays = useMemo(
+    () => buildMonthMatrix(viewYear, viewMonth),
+    [viewYear, viewMonth]
+  );
 
-  const monthFormatter = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' });
-  const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: 'short' });
+  const monthFormatter = new Intl.DateTimeFormat(locale, {
+    month: 'long',
+    year: 'numeric',
+  });
+  const weekdayFormatter = new Intl.DateTimeFormat(locale, {
+    weekday: 'short',
+  });
 
   const weekDaysHeader = useMemo(() => {
     const anyMonday = new Date(2025, 0, 6); // Monday
@@ -79,14 +87,26 @@ export default function CalendarMonth({
           {monthFormatter.format(new Date(viewYear, viewMonth, 1))}
         </h3>
         <div className="flex gap-1">
-          <button onClick={goPrev} className="size-8 rounded-lg bg-neutral-900/70 border border-white/10 flex items-center justify-center hover:border-cyan-400/40">‹</button>
-          <button onClick={goNext} className="size-8 rounded-lg bg-neutral-900/70 border border-white/10 flex items-center justify-center hover:border-cyan-400/40">›</button>
+          <button
+            onClick={goPrev}
+            className="size-8 rounded-lg bg-neutral-900/70 border border-white/10 flex items-center justify-center hover:border-cyan-400/40"
+          >
+            ‹
+          </button>
+          <button
+            onClick={goNext}
+            className="size-8 rounded-lg bg-neutral-900/70 border border-white/10 flex items-center justify-center hover:border-cyan-400/40"
+          >
+            ›
+          </button>
         </div>
       </header>
 
       <div className="grid grid-cols-7 gap-1 text-[11px] text-neutral-400 mb-1">
         {weekDaysHeader.map((wd) => (
-          <div key={wd} className="text-center py-1">{wd}</div>
+          <div key={wd} className="text-center py-1">
+            {wd}
+          </div>
         ))}
       </div>
 
@@ -104,8 +124,12 @@ export default function CalendarMonth({
               onClick={() => onChange(d)}
               className={[
                 'aspect-square rounded-lg flex flex-col items-center justify-center border text-sm',
-                inMonth ? 'border-white/10 bg-neutral-900/50' : 'border-white/5 bg-neutral-900/30 text-neutral-600',
-                isSelected ? 'ring-2 ring-cyan-400/50 shadow-[0_0_0_1px_rgba(34,211,238,.2)]' : '',
+                inMonth
+                  ? 'border-white/10 bg-neutral-900/50'
+                  : 'border-white/5 bg-neutral-900/30 text-neutral-600',
+                isSelected
+                  ? 'ring-2 ring-cyan-400/50 shadow-[0_0_0_1px_rgba(34,211,238,.2)]'
+                  : '',
                 isToday ? 'border-cyan-400/40' : '',
                 'hover:border-cyan-400/40 transition-colors',
               ].join(' ')}
@@ -123,4 +147,3 @@ export default function CalendarMonth({
     </section>
   );
 }
-

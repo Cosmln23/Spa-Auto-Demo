@@ -11,12 +11,19 @@ export default function LiveListeningScreen() {
       </div>
       <div className="flex-1 flex items-center justify-center">
         <div className="relative z-10 flex items-center justify-center w-56 h-56 rounded-full overflow-hidden">
-          <video autoPlay loop muted playsInline className="w-full h-full object-cover rounded-full" />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover rounded-full"
+          />
         </div>
       </div>
-      <p className="text-center mb-8 text-sm text-neutral-400 animate-pulse">Ascult…</p>
+      <p className="text-center mb-8 text-sm text-neutral-400 animate-pulse">
+        Ascult…
+      </p>
       <div className="w-36 h-1 bg-white/30 rounded-full mx-auto" />
     </div>
   );
 }
-

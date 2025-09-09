@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import PhoneFrame from '@/components/PhoneFrame';
 import OnboardingScreen from '@/components/screens/OnboardingScreen';
 import DashboardScreen from '@/components/screens/DashboardScreen';
@@ -15,26 +15,37 @@ export default function PublicPage() {
       <section className="mx-auto max-w-[1400px] px-4 sm:px-8 py-10">
         <div className="hidden md:flex items-center justify-between mb-10">
           <h1 className="text-2xl md:text-4xl tracking-tight">
-            Programări la <span className="text-cyan-400">spălătorie</span>, prin voce.
+            Programări la <span className="text-cyan-400">spălătorie</span>,
+            prin voce.
           </h1>
-          <div className="w-72"><CTAButton /></div>
+          <div className="w-72">
+            <CTAButton />
+          </div>
         </div>
 
         <div className="grid gap-8 xl:gap-10 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 place-items-center">
           <div className="entrance-1">
             <PhoneFrame>
-              <OnboardingScreen onActivate={() => location.assign('/desktop/dashboard')} />
+              <OnboardingScreen
+                onActivate={() => location.assign('/desktop/dashboard')}
+              />
             </PhoneFrame>
           </div>
           <div className="entrance-2">
-            <PhoneFrame><DashboardScreen /></PhoneFrame>
+            <PhoneFrame>
+              <DashboardScreen />
+            </PhoneFrame>
           </div>
           <div className="entrance-3">
-            <PhoneFrame><LiveListeningScreen /></PhoneFrame>
+            <PhoneFrame>
+              <LiveListeningScreen />
+            </PhoneFrame>
           </div>
         </div>
 
-        <div className="mt-10 md:hidden"><CTAButton /></div>
+        <div className="mt-10 md:hidden">
+          <CTAButton />
+        </div>
       </section>
     </main>
   );

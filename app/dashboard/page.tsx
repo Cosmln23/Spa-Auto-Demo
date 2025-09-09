@@ -16,12 +16,15 @@ export default function DashboardPage() {
             </ul>
           </div>
           <div className="p-4 rounded-xl border border-white/10 bg-neutral-900/40">
-            <h2 className="text-sm text-neutral-300 mb-2">Rezervări (astăzi)</h2>
-            <p className="text-sm text-neutral-500">Va fi conectat la DB în Faza 4.</p>
+            <h2 className="text-sm text-neutral-300 mb-2">
+              Rezervări (astăzi)
+            </h2>
+            <p className="text-sm text-neutral-500">
+              Va fi conectat la DB în Faza 4.
+            </p>
           </div>
         </div>
       </section>
     </main>
   );
 }
-

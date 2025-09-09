@@ -9,6 +9,6 @@
 - Ecrane:
   - Onboarding (CTA activare agent + login owner)
   - Dashboard (Meniu: Servicii, Program, Rezervări, Setări)
-  - LiveListening (orb video, status „Ascult…") 
+  - LiveListening (orb video, status „Ascult…")
 
 [source: UI.MD, "CSS & componente"]

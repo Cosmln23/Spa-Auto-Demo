@@ -6,7 +6,10 @@ export default function DashboardScreen() {
           <h2 className="text-[18px] text-white">Spa Auto Demo</h2>
           <p className="text-xs text-neutral-400">Owner dashboard</p>
         </div>
-        <button aria-label="Deschide meniul" className="size-8 rounded-full bg-neutral-900/60 border border-white/10" />
+        <button
+          aria-label="Deschide meniul"
+          className="size-8 rounded-full bg-neutral-900/60 border border-white/10"
+        />
       </div>
 
       <div className="mb-4 p-4 rounded-xl border border-white/10 bg-neutral-900/30">

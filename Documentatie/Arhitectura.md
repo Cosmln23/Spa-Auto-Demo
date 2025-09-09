@@ -6,6 +6,7 @@
 - Hosting: Vercel (app + API), Supabase (DB/Auth)
 
 Puncte cheie (MVP):
+
 - Trei pagini: `/`, `/auth`, `/dashboard`.
 - API public: services, availability, bookings; token efemer pentru Realtime.
 - Guardrails pentru agent: domeniu limitat, confirmare, fără inventat sloturi.

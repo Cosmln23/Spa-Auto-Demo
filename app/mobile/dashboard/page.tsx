@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useEffect, useMemo, useState } from 'react';
 import MobileShell from '@/components/shells/MobileShell';
 import CalendarMonth from '@/components/calendar/CalendarMonth';
@@ -19,10 +19,12 @@ export default function MobileDashboardPage() {
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      setCurrentTime(now.toLocaleTimeString('ro-RO', { 
-        hour: '2-digit', 
-        minute: '2-digit'
-      }));
+      setCurrentTime(
+        now.toLocaleTimeString('ro-RO', {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      );
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
@@ -30,47 +32,119 @@ export default function MobileDashboardPage() {
   }, []);
 
   const todayYmd = useMemo(() => new Date().toISOString().slice(0, 10), []);
-  const eventsByDate = useMemo(() => ({ [todayYmd]: 3 } as Record<string, number>), [todayYmd]);
+  const eventsByDate = useMemo(
+    () => ({ [todayYmd]: 3 }) as Record<string, number>,
+    [todayYmd]
+  );
 
-  const sections: NavItem[] = useMemo(() => ([
-    { id: 'bookings', label: 'Rezervări' },
-    { id: 'calendar', label: 'Calendar' },
-    { id: 'services', label: 'Servicii' },
-    { id: 'clients', label: 'Clienți' },
-    { id: 'program', label: 'Program' },
-    { id: 'history', label: 'Istoric' },
-    { id: 'settings', label: 'Setări' },
-  ]), []);
+  const sections: NavItem[] = useMemo(
+    () => [
+      { id: 'bookings', label: 'Rezervări' },
+      { id: 'calendar', label: 'Calendar' },
+      { id: 'services', label: 'Servicii' },
+      { id: 'clients', label: 'Clienți' },
+      { id: 'program', label: 'Program' },
+      { id: 'history', label: 'Istoric' },
+      { id: 'settings', label: 'Setări' },
+    ],
+    []
+  );
 
   // Demo data (same as desktop)
-  const services = useMemo(() => ([
-    { name: 'Spălare exterior', price: 30, duration: 20 },
-    { name: 'Spălare completă', price: 60, duration: 45 },
-  ]), []);
-  const clients = useMemo(() => ([
-    { name: 'Andrei Pop', email: 'andrei.pop@email.com', phone: '0721234567', address: 'Str. Florilor 12, București', plateNumber: 'B123ABC' },
-    { name: 'Maria Ionescu', email: 'maria.ionescu@gmail.com', phone: '0734567890', address: 'Bd. Unirii 45, București', plateNumber: 'B456DEF' },
-    { name: 'Ion Georgescu', email: 'ion.georgescu@yahoo.com', phone: '0745678901', address: 'Calea Victoriei 78, București', plateNumber: '' },
-  ]), []);
-  const todaysBookings = useMemo(() => ([
-    { name: 'Andrei Pop', service: 'Spălare exterior', time: '10:00–10:20', price: 30 },
-    { name: 'Maria Ionescu', service: 'Spălare completă', time: '12:30–13:15', price: 60 },
-    { name: 'Ion Georgescu', service: 'Spălare exterior', time: '16:00–16:20', price: 30 },
-  ]), []);
-  const weeklyProgram = useMemo(() => ([
-    { day: 'Luni', open: '08:00', close: '18:00' },
-    { day: 'Marți', open: '08:00', close: '18:00' },
-    { day: 'Miercuri', open: '08:00', close: '18:00' },
-    { day: 'Joi', open: '08:00', close: '18:00' },
-    { day: 'Vineri', open: '08:00', close: '18:00' },
-    { day: 'Sâmbătă', open: '08:00', close: '18:00' },
-    { day: 'Duminică', open: '08:00', close: '18:00' },
-  ]), []);
-  const history = useMemo(() => ([
-    { date: todayYmd, time: '09:00', name: 'Elena D.', service: 'Spălare exterior', status: 'confirmată' },
-    { date: todayYmd, time: '11:00', name: 'C. Mihai', service: 'Spălare completă', status: 'confirmată' },
-    { date: todayYmd, time: '15:00', name: 'Radu P.', service: 'Spălare exterior', status: 'anulată' },
-  ]), [todayYmd]);
+  const services = useMemo(
+    () => [
+      { name: 'Spălare exterior', price: 30, duration: 20 },
+      { name: 'Spălare completă', price: 60, duration: 45 },
+    ],
+    []
+  );
+  const clients = useMemo(
+    () => [
+      {
+        name: 'Andrei Pop',
+        email: 'andrei.pop@email.com',
+        phone: '0721234567',
+        address: 'Str. Florilor 12, București',
+        plateNumber: 'B123ABC',
+      },
+      {
+        name: 'Maria Ionescu',
+        email: 'maria.ionescu@gmail.com',
+        phone: '0734567890',
+        address: 'Bd. Unirii 45, București',
+        plateNumber: 'B456DEF',
+      },
+      {
+        name: 'Ion Georgescu',
+        email: 'ion.georgescu@yahoo.com',
+        phone: '0745678901',
+        address: 'Calea Victoriei 78, București',
+        plateNumber: '',
+      },
+    ],
+    []
+  );
+  const todaysBookings = useMemo(
+    () => [
+      {
+        name: 'Andrei Pop',
+        service: 'Spălare exterior',
+        time: '10:00–10:20',
+        price: 30,
+      },
+      {
+        name: 'Maria Ionescu',
+        service: 'Spălare completă',
+        time: '12:30–13:15',
+        price: 60,
+      },
+      {
+        name: 'Ion Georgescu',
+        service: 'Spălare exterior',
+        time: '16:00–16:20',
+        price: 30,
+      },
+    ],
+    []
+  );
+  const weeklyProgram = useMemo(
+    () => [
+      { day: 'Luni', open: '08:00', close: '18:00' },
+      { day: 'Marți', open: '08:00', close: '18:00' },
+      { day: 'Miercuri', open: '08:00', close: '18:00' },
+      { day: 'Joi', open: '08:00', close: '18:00' },
+      { day: 'Vineri', open: '08:00', close: '18:00' },
+      { day: 'Sâmbătă', open: '08:00', close: '18:00' },
+      { day: 'Duminică', open: '08:00', close: '18:00' },
+    ],
+    []
+  );
+  const history = useMemo(
+    () => [
+      {
+        date: todayYmd,
+        time: '09:00',
+        name: 'Elena D.',
+        service: 'Spălare exterior',
+        status: 'confirmată',
+      },
+      {
+        date: todayYmd,
+        time: '11:00',
+        name: 'C. Mihai',
+        service: 'Spălare completă',
+        status: 'confirmată',
+      },
+      {
+        date: todayYmd,
+        time: '15:00',
+        name: 'Radu P.',
+        service: 'Spălare exterior',
+        status: 'anulată',
+      },
+    ],
+    [todayYmd]
+  );
 
   // Swipe handling
   const handleSwipe = (direction: 'left' | 'right') => {
@@ -83,14 +157,16 @@ export default function MobileDashboardPage() {
 
   const renderSection = () => {
     const section = sections[currentSection];
-    
+
     switch (section.id) {
       case 'bookings':
         return (
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm text-neutral-300">Rezervări</h3>
-              <span className="text-xs text-cyan-300">{todaysBookings.length} total</span>
+              <span className="text-xs text-cyan-300">
+                {todaysBookings.length} total
+              </span>
             </div>
             <div className="overflow-x-auto max-h-60 overflow-y-auto scrollbar-custom">
               <table className="w-full text-xs">
@@ -120,8 +196,16 @@ export default function MobileDashboardPage() {
       case 'calendar':
         return (
           <div className="p-4 space-y-4">
-            <CalendarMonth value={selected} onChange={setSelected} eventsByDate={eventsByDate} />
-            <AvailabilityList date={selected} booked={["10:00", "12:30"]} onPick={(iso) => console.log('Pick slot:', iso)} />
+            <CalendarMonth
+              value={selected}
+              onChange={setSelected}
+              eventsByDate={eventsByDate}
+            />
+            <AvailabilityList
+              date={selected}
+              booked={['10:00', '12:30']}
+              onPick={(iso) => console.log('Pick slot:', iso)}
+            />
           </div>
         );
 
@@ -130,7 +214,12 @@ export default function MobileDashboardPage() {
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm text-neutral-300">Servicii</h3>
-              <button onClick={() => setOpenAddService(true)} className="h-7 px-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs">+ Adaugă</button>
+              <button
+                onClick={() => setOpenAddService(true)}
+                className="h-7 px-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs"
+              >
+                + Adaugă
+              </button>
             </div>
             <div className="overflow-x-auto max-h-60 overflow-y-auto scrollbar-custom">
               <table className="w-full text-xs">
@@ -142,7 +231,7 @@ export default function MobileDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="text-neutral-300">
-                  {services.map(s => (
+                  {services.map((s) => (
                     <tr key={s.name} className="border-b border-white/5">
                       <td className="py-1 px-1">{s.name}</td>
                       <td className="py-1 px-1">{s.price}</td>
@@ -160,7 +249,12 @@ export default function MobileDashboardPage() {
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm text-neutral-300">Clienți</h3>
-              <button onClick={() => setOpenAddClient(true)} className="h-7 px-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs">+ Adaugă</button>
+              <button
+                onClick={() => setOpenAddClient(true)}
+                className="h-7 px-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs"
+              >
+                + Adaugă
+              </button>
             </div>
             <div className="overflow-x-auto max-h-60 overflow-y-auto scrollbar-custom">
               <table className="w-full text-xs">
@@ -192,7 +286,12 @@ export default function MobileDashboardPage() {
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm text-neutral-300">Program</h3>
-              <button onClick={() => setOpenEditProgram(true)} className="h-7 px-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs">Editează</button>
+              <button
+                onClick={() => setOpenEditProgram(true)}
+                className="h-7 px-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs"
+              >
+                Editează
+              </button>
             </div>
             <div className="overflow-x-auto max-h-60 overflow-y-auto scrollbar-custom">
               <table className="w-full text-xs">
@@ -253,39 +352,74 @@ export default function MobileDashboardPage() {
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm text-neutral-300">Setări</h3>
-              <button onClick={() => setOpenEditSettings(true)} className="h-7 px-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs">Editează</button>
+              <button
+                onClick={() => setOpenEditSettings(true)}
+                className="h-7 px-2 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs"
+              >
+                Editează
+              </button>
             </div>
             <div className="space-y-3">
               <div className="overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead className="text-neutral-400">
-                    <tr className="border-b border-white/10"><th className="text-left py-1 px-1" colSpan={2}>Agent</th></tr>
+                    <tr className="border-b border-white/10">
+                      <th className="text-left py-1 px-1" colSpan={2}>
+                        Agent
+                      </th>
+                    </tr>
                   </thead>
                   <tbody className="text-neutral-300">
-                    <tr className="border-b border-white/5"><td className="py-1 px-1">Temperature</td><td className="py-1 px-1">0.2</td></tr>
-                    <tr className="border-b border-white/5"><td className="py-1 px-1">Max tool calls</td><td className="py-1 px-1">8</td></tr>
+                    <tr className="border-b border-white/5">
+                      <td className="py-1 px-1">Temperature</td>
+                      <td className="py-1 px-1">0.2</td>
+                    </tr>
+                    <tr className="border-b border-white/5">
+                      <td className="py-1 px-1">Max tool calls</td>
+                      <td className="py-1 px-1">8</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead className="text-neutral-400">
-                    <tr className="border-b border-white/10"><th className="text-left py-1 px-1" colSpan={2}>General</th></tr>
+                    <tr className="border-b border-white/10">
+                      <th className="text-left py-1 px-1" colSpan={2}>
+                        General
+                      </th>
+                    </tr>
                   </thead>
                   <tbody className="text-neutral-300">
-                    <tr className="border-b border-white/5"><td className="py-1 px-1">Timezone</td><td className="py-1 px-1">Europe/Bucharest</td></tr>
-                    <tr className="border-b border-white/5"><td className="py-1 px-1">Valută</td><td className="py-1 px-1">RON</td></tr>
+                    <tr className="border-b border-white/5">
+                      <td className="py-1 px-1">Timezone</td>
+                      <td className="py-1 px-1">Europe/Bucharest</td>
+                    </tr>
+                    <tr className="border-b border-white/5">
+                      <td className="py-1 px-1">Valută</td>
+                      <td className="py-1 px-1">RON</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead className="text-neutral-400">
-                    <tr className="border-b border-white/10"><th className="text-left py-1 px-1" colSpan={2}>Utilizator</th></tr>
+                    <tr className="border-b border-white/10">
+                      <th className="text-left py-1 px-1" colSpan={2}>
+                        Utilizator
+                      </th>
+                    </tr>
                   </thead>
                   <tbody className="text-neutral-300">
-                    <tr className="border-b border-white/5"><td className="py-1 px-1">Nume</td><td className="py-1 px-1">Owner Demo</td></tr>
-                    <tr className="border-b border-white/5"><td className="py-1 px-1">Email</td><td className="py-1 px-1">owner@example.com</td></tr>
+                    <tr className="border-b border-white/5">
+                      <td className="py-1 px-1">Nume</td>
+                      <td className="py-1 px-1">Owner Demo</td>
+                    </tr>
+                    <tr className="border-b border-white/5">
+                      <td className="py-1 px-1">Email</td>
+                      <td className="py-1 px-1">owner@example.com</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -309,7 +443,9 @@ export default function MobileDashboardPage() {
           </div>
           <div className="flex items-center gap-1 px-2 py-1 rounded-lg border border-white/10 bg-neutral-900/40">
             <div className="size-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="text-xs text-neutral-200 font-mono">{currentTime}</span>
+            <span className="text-xs text-neutral-200 font-mono">
+              {currentTime}
+            </span>
           </div>
         </div>
         <div className="flex justify-end mt-2">
@@ -325,7 +461,7 @@ export default function MobileDashboardPage() {
       {/* Meniu navigare cu swipe */}
       <div className="mb-4 p-3 rounded-xl border border-white/10 bg-neutral-900/30">
         <h4 className="text-xs text-neutral-400 mb-2 px-1">Meniu</h4>
-        <div 
+        <div
           className="flex gap-2 overflow-x-auto pb-2 touch-pan-x scrollbar-custom"
           onTouchStart={(e) => {
             const touch = e.touches[0];
@@ -335,7 +471,7 @@ export default function MobileDashboardPage() {
             const touch = e.changedTouches[0];
             const startX = (e.currentTarget as any).startX;
             const deltaX = touch.clientX - startX;
-            
+
             if (Math.abs(deltaX) > 30) {
               handleSwipe(deltaX > 0 ? 'right' : 'left');
             }
@@ -349,7 +485,7 @@ export default function MobileDashboardPage() {
                 'flex-shrink-0 px-4 py-3 rounded-lg border transition-colors text-sm whitespace-nowrap',
                 currentSection === index
                   ? 'border-cyan-400/40 bg-gradient-to-b from-cyan-400/10 to-cyan-400/5 text-cyan-100'
-                  : 'border-white/10 bg-neutral-900/50 text-neutral-300'
+                  : 'border-white/10 bg-neutral-900/50 text-neutral-300',
               ].join(' ')}
             >
               <span className="text-cyan-300">{section.label}</span>
@@ -359,7 +495,7 @@ export default function MobileDashboardPage() {
       </div>
 
       {/* Conținut secțiune cu swipe */}
-      <div 
+      <div
         className="rounded-xl border border-white/10 bg-neutral-900/40 min-h-96 touch-pan-x"
         onTouchStart={(e) => {
           const touch = e.touches[0];
@@ -369,7 +505,7 @@ export default function MobileDashboardPage() {
           const touch = e.changedTouches[0];
           const startX = (e.currentTarget as any).startX;
           const deltaX = touch.clientX - startX;
-          
+
           if (Math.abs(deltaX) > 50) {
             handleSwipe(deltaX > 0 ? 'right' : 'left');
           }
@@ -385,7 +521,7 @@ export default function MobileDashboardPage() {
             key={index}
             className={[
               'w-2 h-2 rounded-full',
-              currentSection === index ? 'bg-cyan-400' : 'bg-neutral-600'
+              currentSection === index ? 'bg-cyan-400' : 'bg-neutral-600',
             ].join(' ')}
           />
         ))}
@@ -394,28 +530,54 @@ export default function MobileDashboardPage() {
       {/* Modals (same as desktop but smaller) */}
       {openAddService && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setOpenAddService(false)} />
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setOpenAddService(false)}
+          />
           <div className="relative w-full max-w-sm p-4 rounded-xl border border-white/10 bg-neutral-900/90 backdrop-blur">
             <h4 className="text-sm text-neutral-200 mb-3">Adaugă serviciu</h4>
             <div className="space-y-3">
               <div>
                 <label className="text-xs text-neutral-400">Denumire</label>
-                <input className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50" placeholder="Ex: Spălare interior" />
+                <input
+                  className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50"
+                  placeholder="Ex: Spălare interior"
+                />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-neutral-400">Durată (min)</label>
-                  <input type="number" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50" placeholder="30" />
+                  <label className="text-xs text-neutral-400">
+                    Durată (min)
+                  </label>
+                  <input
+                    type="number"
+                    className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50"
+                    placeholder="30"
+                  />
                 </div>
                 <div>
                   <label className="text-xs text-neutral-400">Preț (RON)</label>
-                  <input type="number" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50" placeholder="50" />
+                  <input
+                    type="number"
+                    className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50"
+                    placeholder="50"
+                  />
                 </div>
               </div>
             </div>
             <div className="mt-4 flex justify-end gap-2">
-              <button onClick={() => setOpenAddService(false)} className="h-8 px-3 rounded-lg border border-white/10 text-neutral-300 text-xs">Anulează</button>
-              <button onClick={() => setOpenAddService(false)} className="h-8 px-3 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs">Salvează</button>
+              <button
+                onClick={() => setOpenAddService(false)}
+                className="h-8 px-3 rounded-lg border border-white/10 text-neutral-300 text-xs"
+              >
+                Anulează
+              </button>
+              <button
+                onClick={() => setOpenAddService(false)}
+                className="h-8 px-3 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs"
+              >
+                Salvează
+              </button>
             </div>
           </div>
         </div>
@@ -423,30 +585,59 @@ export default function MobileDashboardPage() {
 
       {openAddClient && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setOpenAddClient(false)} />
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setOpenAddClient(false)}
+          />
           <div className="relative w-full max-w-sm p-4 rounded-xl border border-white/10 bg-neutral-900/90 backdrop-blur">
             <h4 className="text-sm text-neutral-200 mb-3">Adaugă client</h4>
             <div className="space-y-3">
               <div>
                 <label className="text-xs text-neutral-400">Nume *</label>
-                <input className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50" placeholder="Ion Popescu" />
+                <input
+                  className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50"
+                  placeholder="Ion Popescu"
+                />
               </div>
               <div>
                 <label className="text-xs text-neutral-400">Email *</label>
-                <input type="email" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50" placeholder="ion@email.com" />
+                <input
+                  type="email"
+                  className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50"
+                  placeholder="ion@email.com"
+                />
               </div>
               <div>
                 <label className="text-xs text-neutral-400">Telefon *</label>
-                <input type="tel" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50" placeholder="0721234567" />
+                <input
+                  type="tel"
+                  className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50"
+                  placeholder="0721234567"
+                />
               </div>
               <div>
-                <label className="text-xs text-neutral-400">Nr. auto (opțional)</label>
-                <input className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50" placeholder="B123ABC" />
+                <label className="text-xs text-neutral-400">
+                  Nr. auto (opțional)
+                </label>
+                <input
+                  className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-3 py-2 text-sm outline-none focus:border-cyan-400/50"
+                  placeholder="B123ABC"
+                />
               </div>
             </div>
             <div className="mt-4 flex justify-end gap-2">
-              <button onClick={() => setOpenAddClient(false)} className="h-8 px-3 rounded-lg border border-white/10 text-neutral-300 text-xs">Anulează</button>
-              <button onClick={() => setOpenAddClient(false)} className="h-8 px-3 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs">Salvează</button>
+              <button
+                onClick={() => setOpenAddClient(false)}
+                className="h-8 px-3 rounded-lg border border-white/10 text-neutral-300 text-xs"
+              >
+                Anulează
+              </button>
+              <button
+                onClick={() => setOpenAddClient(false)}
+                className="h-8 px-3 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs"
+              >
+                Salvează
+              </button>
             </div>
           </div>
         </div>
@@ -454,7 +645,10 @@ export default function MobileDashboardPage() {
 
       {openEditProgram && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setOpenEditProgram(false)} />
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setOpenEditProgram(false)}
+          />
           <div className="relative w-full max-w-sm p-4 rounded-xl border border-white/10 bg-neutral-900/90 backdrop-blur">
             <h4 className="text-sm text-neutral-200 mb-3">Editează program</h4>
             <div className="overflow-x-auto">
@@ -470,16 +664,36 @@ export default function MobileDashboardPage() {
                   {weeklyProgram.map((r) => (
                     <tr key={r.day} className="border-b border-white/5">
                       <td className="py-1 px-1">{r.day}</td>
-                      <td className="py-1 px-1"><input defaultValue={r.open} className="w-16 rounded-md bg-neutral-900 border border-white/10 px-1 py-0.5 text-xs" /></td>
-                      <td className="py-1 px-1"><input defaultValue={r.close} className="w-16 rounded-md bg-neutral-900 border border-white/10 px-1 py-0.5 text-xs" /></td>
+                      <td className="py-1 px-1">
+                        <input
+                          defaultValue={r.open}
+                          className="w-16 rounded-md bg-neutral-900 border border-white/10 px-1 py-0.5 text-xs"
+                        />
+                      </td>
+                      <td className="py-1 px-1">
+                        <input
+                          defaultValue={r.close}
+                          className="w-16 rounded-md bg-neutral-900 border border-white/10 px-1 py-0.5 text-xs"
+                        />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
             <div className="mt-4 flex justify-end gap-2">
-              <button onClick={() => setOpenEditProgram(false)} className="h-8 px-3 rounded-lg border border-white/10 text-neutral-300 text-xs">Anulează</button>
-              <button onClick={() => setOpenEditProgram(false)} className="h-8 px-3 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs">Salvează</button>
+              <button
+                onClick={() => setOpenEditProgram(false)}
+                className="h-8 px-3 rounded-lg border border-white/10 text-neutral-300 text-xs"
+              >
+                Anulează
+              </button>
+              <button
+                onClick={() => setOpenEditProgram(false)}
+                className="h-8 px-3 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs"
+              >
+                Salvează
+              </button>
             </div>
           </div>
         </div>
@@ -487,7 +701,10 @@ export default function MobileDashboardPage() {
 
       {openEditSettings && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setOpenEditSettings(false)} />
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setOpenEditSettings(false)}
+          />
           <div className="relative w-full max-w-sm p-4 rounded-xl border border-white/10 bg-neutral-900/90 backdrop-blur max-h-[80vh] overflow-y-auto">
             <h4 className="text-sm text-neutral-200 mb-3">Editează setări</h4>
             <div className="space-y-3">
@@ -495,12 +712,23 @@ export default function MobileDashboardPage() {
                 <h5 className="text-xs text-neutral-300 mb-2">Agent</h5>
                 <div className="space-y-2">
                   <div>
-                    <label className="text-xs text-neutral-400">Temperature</label>
-                    <input defaultValue="0.2" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs" />
+                    <label className="text-xs text-neutral-400">
+                      Temperature
+                    </label>
+                    <input
+                      defaultValue="0.2"
+                      className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs"
+                    />
                   </div>
                   <div>
-                    <label className="text-xs text-neutral-400">Max tool calls</label>
-                    <input defaultValue="8" type="number" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs" />
+                    <label className="text-xs text-neutral-400">
+                      Max tool calls
+                    </label>
+                    <input
+                      defaultValue="8"
+                      type="number"
+                      className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs"
+                    />
                   </div>
                 </div>
               </div>
@@ -509,14 +737,20 @@ export default function MobileDashboardPage() {
                 <div className="space-y-2">
                   <div>
                     <label className="text-xs text-neutral-400">Timezone</label>
-                    <select defaultValue="Europe/Bucharest" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs">
+                    <select
+                      defaultValue="Europe/Bucharest"
+                      className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs"
+                    >
                       <option value="Europe/Bucharest">Europe/Bucharest</option>
                       <option value="Europe/London">Europe/London</option>
                     </select>
                   </div>
                   <div>
                     <label className="text-xs text-neutral-400">Valută</label>
-                    <select defaultValue="RON" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs">
+                    <select
+                      defaultValue="RON"
+                      className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs"
+                    >
                       <option value="RON">RON</option>
                       <option value="EUR">EUR</option>
                     </select>
@@ -528,23 +762,39 @@ export default function MobileDashboardPage() {
                 <div className="space-y-2">
                   <div>
                     <label className="text-xs text-neutral-400">Nume</label>
-                    <input defaultValue="Owner Demo" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs" />
+                    <input
+                      defaultValue="Owner Demo"
+                      className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs"
+                    />
                   </div>
                   <div>
                     <label className="text-xs text-neutral-400">Email</label>
-                    <input defaultValue="owner@example.com" type="email" className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs" />
+                    <input
+                      defaultValue="owner@example.com"
+                      type="email"
+                      className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs"
+                    />
                   </div>
                 </div>
               </div>
             </div>
             <div className="mt-4 flex justify-end gap-2">
-              <button onClick={() => setOpenEditSettings(false)} className="h-8 px-3 rounded-lg border border-white/10 text-neutral-300 text-xs">Anulează</button>
-              <button onClick={() => setOpenEditSettings(false)} className="h-8 px-3 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs">Salvează</button>
+              <button
+                onClick={() => setOpenEditSettings(false)}
+                className="h-8 px-3 rounded-lg border border-white/10 text-neutral-300 text-xs"
+              >
+                Anulează
+              </button>
+              <button
+                onClick={() => setOpenEditSettings(false)}
+                className="h-8 px-3 rounded-lg border border-cyan-400/40 text-cyan-200 bg-cyan-400/10 text-xs"
+              >
+                Salvează
+              </button>
             </div>
           </div>
         </div>
       )}
-
     </MobileShell>
   );
 }
