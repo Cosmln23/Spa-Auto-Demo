@@ -28,5 +28,40 @@
 .aura-blob { @apply absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[900px] blur-3xl rounded-full;
   background: linear-gradient(to bottom right, rgba(34,211,238,.2), rgba(59,130,246,.1), rgba(34,211,238,.2)); }
 
+/* Custom Scrollbar Styles */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #0891b2, #2563eb);
+}
+.scrollbar-custom::-webkit-scrollbar-corner {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Firefox scrollbar */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: #06b6d4 rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile scrollbar (smaller) */
+@media (max-width: 768px) {
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+}
+
 html, body { height: 100%; }
 body { background-color: #0a0a0a; font-family: 'Manrope', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji'; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }

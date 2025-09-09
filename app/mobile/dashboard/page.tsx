@@ -545,34 +545,6 @@ export default function MobileDashboardPage() {
         </div>
       )}
 
-      {/* Custom Scrollbar Styles */}
-      <style jsx global>{`
-        .scrollbar-custom::-webkit-scrollbar {
-          width: 6px;
-          height: 6px;
-        }
-        .scrollbar-custom::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
-        }
-        .scrollbar-custom::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, #06b6d4, #3b82f6);
-          border-radius: 10px;
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(135deg, #0891b2, #2563eb);
-        }
-        .scrollbar-custom::-webkit-scrollbar-corner {
-          background: rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Firefox scrollbar */
-        .scrollbar-custom {
-          scrollbar-width: thin;
-          scrollbar-color: #06b6d4 rgba(255, 255, 255, 0.1);
-        }
-      `}</style>
     </MobileShell>
   );
 }
