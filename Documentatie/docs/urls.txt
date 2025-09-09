@@ -1,0 +1,41 @@
+@"
+# Next.js
+https://nextjs.org/docs
+https://nextjs.org/docs/app
+https://nextjs.org/docs/app/api-reference/file-conventions/route
+https://nextjs.org/docs/app/getting-started/route-handlers-and-middleware
+https://nextjs.org/docs/app/api-reference/config/next-config-js/env
+https://nextjs.org/docs/14/app/building-your-application/rendering/edge-and-nodejs-runtimes
+
+# Supabase
+https://supabase.com/docs
+https://supabase.com/docs/guides/database/postgres/row-level-security
+https://supabase.com/docs/guides/api/api-keys
+https://supabase.com/docs/reference/cli/introduction
+https://supabase.com/docs/guides/api/rest/generating-types
+https://supabase.com/docs/reference/javascript/typescript-support
+https://supabase.com/docs/guides/api
+
+# OpenAI Realtime / Tools
+https://platform.openai.com/docs/guides/realtime
+https://platform.openai.com/docs/guides/realtime-webrtc
+https://platform.openai.com/docs/guides/function-calling
+
+# WebRTC / MDN
+https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection
+https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay
+https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API
+
+# PostgreSQL
+https://www.postgresql.org/docs/current/datatype-datetime.html
+https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+https://www.postgresql.org/docs/current/sql-createpolicy.html
+https://www.postgresql.org/docs/current/explicit-locking.html
+https://www.postgresql.org/docs/current/sql-insert.html
+https://www.postgresql.org/docs/current/view-pg-timezone-names.html
+
+# Vercel
+https://vercel.com/docs/environment-variables
+https://vercel.com/docs/cli/env
+"@ | Set-Content -Encoding UTF8 .\urls.txt

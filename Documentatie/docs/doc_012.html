@@ -1,0 +1,125 @@
+<!DOCTYPE html> <html style><!--
+ Page saved with SingleFile 
+ url: https://supabase.com/docs/reference/javascript/typescript-support 
+ saved date: Tue Sep 09 2025 13:21:43 GMT+0200 (Central European Summer Time)
+--><meta charset=utf-8><title>JavaScript: TypeScript support | Supabase Docs</title><meta name=description content="Supabase API reference for JavaScript: TypeScript support"><meta name=og:image content=https://supabase.com/docs/img/supabase-og-image.png><meta name=twitter:image content=https://supabase.com/docs/img/supabase-og-image.png><link rel=canonical href=https://supabase.com/docs/reference/javascript/typescript-support><meta name=referrer content=no-referrer><meta http-equiv=content-security-policy content="default-src 'none'; font-src 'self' data:; img-src 'self' data:; style-src 'unsafe-inline'; media-src 'self' data:; script-src 'unsafe-inline' data:; object-src 'self' data:; frame-src 'self' data:;"><body><nav><ul><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/introduction>Introduction</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/installing>Installing</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/initializing>Initializing</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/typescript-support>TypeScript support</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript>Database</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/select>Fetch data</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/insert>Insert data</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/update>Update data</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/upsert>Upsert data</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/delete>Delete data</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/rpc>Call a Postgres function</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/using-filters>Using filters</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/eq>Column is equal to a value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/neq>Column is not equal to a value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/gt>Column is greater than a value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/gte>Column is greater than or equal to a value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/lt>Column is less than a value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/lte>Column is less than or equal to a value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/like>Column matches a pattern</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/ilike>Column matches a case-insensitive pattern</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/is>Column is a value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/in>Column is in an array</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/contains>Column contains every element in a value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/containedby>Contained by value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/rangegt>Greater than a range</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/rangegte>Greater than or equal to a range</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/rangelt>Less than a range</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/rangelte>Less than or equal to a range</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/rangeadjacent>Mutually exclusive to a range</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/overlaps>With a common element</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/textsearch>Match a string</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/match>Match an associated value</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/not>Don't match the filter</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/or>Match at least one filter</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/filter>Match the filter</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/using-modifiers>Using modifiers</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/db-modifiers-select>Return data after inserting</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/order>Order the results</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/limit>Limit the number of rows returned</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/range>Limit the query to a range</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/db-abortsignal>Set an abort signal</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/single>Retrieve one row of data</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/maybesingle>Retrieve zero or one row of data</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/db-csv>Retrieve as a CSV</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/db-returns>Override type of successful response</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/db-overrideTypes>Partially override or replace type of successful response</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/explain>Using explain</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript>Auth</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-api>Overview</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-signup>Create a new user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-onauthstatechange>Listen to auth events</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-signinanonymously>Create an anonymous user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-signinwithpassword>Sign in a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-signinwithidtoken>Sign in with ID Token</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-signinwithotp>Sign in a user through OTP</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-signinwithoauth>Sign in a user through OAuth</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-signinwithsso>Sign in a user through SSO</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-getclaims>Get user claims from verified JWT</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-signout>Sign out a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-resetpasswordforemail>Send a password reset request</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-verifyotp>Verify and log in through OTP</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-getsession>Retrieve a session</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-refreshsession>Retrieve a new session</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-getuser>Retrieve a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-updateuser>Update a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-getuseridentities>Retrieve identities linked to a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-linkidentity>Link an identity to a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-unlinkidentity>Unlink an identity from a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-reauthentication>Send a password reauthentication nonce</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-resend>Resend an OTP</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-setsession>Set the session data</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-exchangecodeforsession>Exchange an auth code for a session</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-startautorefresh>Start auto-refresh session (non-browser)</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-stopautorefresh>Stop auto-refresh session (non-browser)</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-mfa-api>Auth MFA</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-mfa-enroll>Enroll a factor</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-mfa-challenge>Create a challenge</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-mfa-verify>Verify a challenge</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-mfa-challengeandverify>Create and verify a challenge</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-mfa-unenroll>Unenroll a factor</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-mfa-getauthenticatorassurancelevel>Get Authenticator Assurance Level</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/admin-api>Auth Admin</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-admin-getuserbyid>Retrieve a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-admin-listusers>List all users</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-admin-createuser>Create a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-admin-deleteuser>Delete a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-admin-inviteuserbyemail>Send an email invite link</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-admin-generatelink>Generate an email link</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-admin-updateuserbyid>Update a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/auth-admin-mfa-deletefactor>Delete a factor for a user</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript>Edge Functions</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/functions-invoke>Invokes a Supabase Edge Function.</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript>Realtime</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/subscribe>Subscribe to channel</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/removechannel>Unsubscribe from a channel</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/removeallchannels>Unsubscribe from all channels</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/getchannels>Retrieve all channels</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/broadcastmessage>Broadcast a message</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript>Storage</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-createbucket>Create a bucket</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-getbucket>Retrieve a bucket</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-listbuckets>List all buckets</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-updatebucket>Update a bucket</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-deletebucket>Delete a bucket</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-emptybucket>Empty a bucket</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-upload>Upload a file</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-download>Download a file</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-list>List all files in a bucket</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-update>Replace an existing file</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-move>Move an existing file</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-copy>Copy an existing file</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-remove>Delete files in a bucket</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-createsignedurl>Create a signed URL</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-createsignedurls>Create signed URLs</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-createsigneduploadurl>Create signed upload URL</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-uploadtosignedurl>Upload to a signed URL</a><li><a href=https://docs-supabase.vercel.app/docs/reference/javascript/storage-from-getpublicurl>Retrieve public URL</a></ul></nav><h1>JavaScript: TypeScript support</h1><p><code>supabase-js</code> has TypeScript support for type inference, autocompletion, type-safe queries, and more.</p>
+<p>With TypeScript, <code>supabase-js</code> detects things like <code>not null</code> constraints and <a href=https://www.postgresql.org/docs/current/ddl-generated-columns.html>generated columns</a>. Nullable columns are typed as <code>T | null</code> when you select the column. Generated columns will show a type error when you insert to it.</p>
+<p><code>supabase-js</code> also detects relationships between tables. A referenced table with one-to-many relationship is typed as <code>T[]</code>. Likewise, a referenced table with many-to-one relationship is typed as <code>T | null</code>.</p>
+<h2>Generating TypeScript Types</h2>
+<div><div><p>You can use the Supabase CLI to <a href=https://supabase.com/docs/reference/cli/supabase-gen-types>generate the types</a>. You can also generate the types <a href="https://supabase.com/dashboard/project/_/api?page=tables-intro">from the dashboard</a>.</p></div><div><pre><code class=language-bash>supabase gen types typescript --project-id abcdefghijklmnopqrst &gt; database.types.ts
+</code></pre></div></div>
+<div><div><p>These types are generated from your database schema. Given a table <code>public.movies</code>, the generated types will look like:</p></div><div><pre><code class=language-sql>create table public.movies (
+  id bigint generated always as identity primary key,
+  name text not null,
+  data jsonb null
+);
+</code></pre><pre><code class=language-ts>export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
+
+export interface Database {
+  public: {
+    Tables: {
+      movies: {
+        Row: {               // the data expected from .select()
+          id: number
+          name: string
+          data: Json | null
+        }
+        Insert: {            // the data to be passed to .insert()
+          id?: never         // generated columns must not be supplied
+          name: string       // `not null` columns with no default must be supplied
+          data?: Json | null // nullable columns can be omitted
+        }
+        Update: {            // the data to be passed to .update()
+          id?: never
+          name?: string      // `not null` columns are optional on .update()
+          data?: Json | null
+        }
+      }
+    }
+  }
+}
+</code></pre></div></div>
+<h2>Using TypeScript type definitions</h2>
+<div><div><p>You can supply the type definitions to <code>supabase-js</code> like so:</p></div><div><pre><code class=language-ts>import { createClient } from '@supabase/supabase-js'
+import { Database } from './database.types'
+
+const supabase = createClient&lt;Database&gt;(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+)
+</code></pre></div></div>
+<h2>Helper types for Tables and Joins</h2>
+<p>You can use the following helper types to make the generated TypeScript types easier to use.</p>
+<div><div><p>Sometimes the generated types are not what you expect. For example, a view's column may show up as nullable when you expect it to be <code>not null</code>. Using <a href=https://github.com/sindresorhus/type-fest>type-fest</a>, you can override the types like so:</p></div><div><pre><code class=language-ts>export type Json = // ...
+
+export interface Database {
+  // ...
+}
+</code></pre><pre><code class=language-ts>import { MergeDeep } from 'type-fest'
+import { Database as DatabaseGenerated } from './database-generated.types'
+export { Json } from './database-generated.types'
+
+// Override the type for a specific column in a view:
+export type Database = MergeDeep&lt;
+  DatabaseGenerated,
+  {
+    public: {
+      Views: {
+        movies_view: {
+          Row: {
+            // id is a primary key in public.movies, so it must be `not null`
+            id: number
+          }
+        }
+      }
+    }
+  }
+&gt;
+</code></pre></div></div>
+<div><div><p>You can also override the type of an individual successful response if needed:</p></div><div><pre><code class=language-ts>// Partial type override allows you to only override some of the properties in your results
+const { data } = await supabase.from('countries').select().overrideTypes&lt;Array&lt;{ id: string }&gt;&gt;()
+// For a full replacement of the original return type use the `{ merge: false }` property as second argument
+const { data } = await supabase
+  .from('countries')
+  .select()
+  .overrideTypes&lt;Array&lt;{ id: string }&gt;, { merge: false }&gt;()
+// Use it with `maybeSingle` or `single`
+const { data } = await supabase.from('countries').select().single().overrideTypes&lt;{ id: string }&gt;()
+</code></pre></div></div>
+<div><div><p>The generated types provide shorthands for accessing tables and enums.</p></div><div><pre><code class=language-ts>import { Database, Tables, Enums } from "./database.types.ts";
+
+// Before 😕
+let movie: Database['public']['Tables']['movies']['Row'] = // ...
+
+// After 😍
+let movie: Tables&lt;'movies'&gt;
+</code></pre></div></div>
+<h3>Response types for complex queries</h3>
+<div><div><p><code>supabase-js</code> always returns a <code>data</code> object (for success), and an <code>error</code> object (for unsuccessful requests).<p>These helper types provide the result types from any query, including nested types for database joins.<p>Given the following schema with a relation between cities and countries, we can get the nested <code>CountriesWithCities</code> type:<pre><code class=language-sql>create table countries (
+  "id" serial primary key,
+  "name" text
+);
+
+create table cities (
+  "id" serial primary key,
+  "name" text,
+  "country_id" int references "countries"
+);
+</code></pre></div><div><pre><code class=language-ts>import { QueryResult, QueryData, QueryError } from '@supabase/supabase-js'
+
+const countriesWithCitiesQuery = supabase
+  .from("countries")
+  .select(`
+    id,
+    name,
+    cities (
+      id,
+      name
+    )
+  `);
+type CountriesWithCities = QueryData&lt;typeof countriesWithCitiesQuery&gt;;
+
+const { data, error } = await countriesWithCitiesQuery;
+if (error) throw error;
+const countriesWithCities: CountriesWithCities = data;
+</code></pre></div></div>
