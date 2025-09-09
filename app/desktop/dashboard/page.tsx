@@ -202,10 +202,10 @@ export default function DesktopDashboardPage() {
             onClick={() => setSidebarOpen((v) => !v)}
             className="size-8 rounded-full bg-neutral-900/60 border border-white/10 hover:border-cyan-400/40"
           />
-          <div>
-            <h1 className="text-[18px] text-white">Spa Auto Demo</h1>
-            <p className="text-sm text-neutral-400">Owner dashboard</p>
-          </div>
+        <div>
+          <h1 className="text-[18px] text-white">Spa Auto Demo</h1>
+          <p className="text-sm text-neutral-400">Owner dashboard</p>
+        </div>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/10 bg-neutral-900/40">
@@ -298,19 +298,19 @@ export default function DesktopDashboardPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
-          </section>
+        </div>
+      </section>
 
-          {/* Calendar + Sloturi */}
+      {/* Calendar + Sloturi */}
           <section id="calendar" className="grid md:grid-cols-3 gap-4">
-            <div className="md:col-span-1">
+        <div className="md:col-span-1">
               <CalendarMonth
                 value={selected}
                 onChange={setSelected}
                 eventsByDate={eventsByDate}
               />
-            </div>
-            <div className="md:col-span-2">
+        </div>
+        <div className="md:col-span-2">
               <AvailabilityList
                 date={selected}
                 booked={['10:00', '12:30']}
@@ -392,8 +392,8 @@ export default function DesktopDashboardPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
-          </section>
+        </div>
+      </section>
 
           {/* Program → tabel 3 coloane + Editare */}
           <section
@@ -429,7 +429,7 @@ export default function DesktopDashboardPage() {
                 </tbody>
               </table>
             </div>
-          </section>
+        </section>
 
           {/* Istoric rezervări → tabel */}
           <section
@@ -461,7 +461,7 @@ export default function DesktopDashboardPage() {
                 </tbody>
               </table>
             </div>
-          </section>
+        </section>
 
           {/* Setări → tabele simple + buton edit */}
           <section
@@ -542,7 +542,7 @@ export default function DesktopDashboardPage() {
                 </table>
               </div>
             </div>
-          </section>
+        </section>
         </div>
       </div>
 
