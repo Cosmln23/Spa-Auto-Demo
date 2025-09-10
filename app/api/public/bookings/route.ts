@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseServer } from '@/lib/supabaseClient';
+import { getSupabaseServer } from '@/lib/supabaseClient';
 import type {
   CreateBookingRequest,
   CreateBookingResponse,
@@ -42,7 +42,8 @@ export async function POST(request: NextRequest) {
     const data = validationResult.data;
 
     // 1. Get service details to calculate end time
-    const { data: service, error: serviceError } = await supabaseServer
+    const supabase = getSupabaseServer();
+    const { data: service, error: serviceError } = await supabase
       .from('service')
       .select('duration_minutes')
       .eq('id', data.service_id)
@@ -64,7 +65,7 @@ export async function POST(request: NextRequest) {
 
     if (data.customer_email) {
       // Try to find existing customer by email
-      const { data: existingCustomer } = await supabaseServer
+      const { data: existingCustomer } = await supabase
         .from('customer')
         .select('*')
         .eq('business_id', BUSINESS_ID)
@@ -74,7 +75,7 @@ export async function POST(request: NextRequest) {
       if (existingCustomer) {
         // Update existing customer
         const { data: updatedCustomer, error: updateError } =
-          await supabaseServer
+          await supabase
             .from('customer')
             .update({
               name: data.customer_name,
@@ -91,7 +92,7 @@ export async function POST(request: NextRequest) {
         customer = updatedCustomer;
       } else {
         // Create new customer
-        const { data: newCustomer, error: createError } = await supabaseServer
+        const { data: newCustomer, error: createError } = await supabase
           .from('customer')
           .insert({
             business_id: BUSINESS_ID,
@@ -110,7 +111,7 @@ export async function POST(request: NextRequest) {
       }
     } else if (data.customer_phone) {
       // Try to find existing customer by phone
-      const { data: existingCustomer } = await supabaseServer
+      const { data: existingCustomer } = await supabase
         .from('customer')
         .select('*')
         .eq('business_id', BUSINESS_ID)
@@ -120,7 +121,7 @@ export async function POST(request: NextRequest) {
       if (existingCustomer) {
         // Update existing customer
         const { data: updatedCustomer, error: updateError } =
-          await supabaseServer
+          await supabase
             .from('customer')
             .update({
               name: data.customer_name,
@@ -136,7 +137,7 @@ export async function POST(request: NextRequest) {
         customer = updatedCustomer;
       } else {
         // Create new customer
-        const { data: newCustomer, error: createError } = await supabaseServer
+        const { data: newCustomer, error: createError } = await supabase
           .from('customer')
           .insert({
             business_id: BUSINESS_ID,
@@ -154,7 +155,7 @@ export async function POST(request: NextRequest) {
       }
     } else {
       // Create customer without email/phone
-      const { data: newCustomer, error: createError } = await supabaseServer
+      const { data: newCustomer, error: createError } = await supabase
         .from('customer')
         .insert({
           business_id: BUSINESS_ID,
@@ -172,7 +173,7 @@ export async function POST(request: NextRequest) {
 
     // 4. Check for booking conflicts
     const { data: conflictingBookings, error: conflictError } =
-      await supabaseServer
+      await supabase
         .from('booking')
         .select('id')
         .eq('business_id', BUSINESS_ID)
@@ -194,7 +195,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 5. Create the booking
-    const { data: booking, error: bookingError } = await supabaseServer
+    const { data: booking, error: bookingError } = await supabase
       .from('booking')
       .insert({
         business_id: BUSINESS_ID,

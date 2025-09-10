@@ -1,4 +1,4 @@
-import { supabaseServer } from './supabaseClient';
+import { getSupabaseServer } from './supabaseClient';
 import type {
   Service,
   Resource,
@@ -80,7 +80,8 @@ export async function computeAvailability(
 ): Promise<AvailabilitySlot[]> {
   try {
     // 1. Get service details
-    const { data: service, error: serviceError } = await supabaseServer
+    const supabase = getSupabaseServer();
+    const { data: service, error: serviceError } = await supabase
       .from('service')
       .select('*')
       .eq('id', serviceId)
@@ -93,7 +94,7 @@ export async function computeAvailability(
 
     // 2. Get available resources for this service
     const { data: serviceResources, error: resourcesError } =
-      await supabaseServer
+      await supabase
         .from('service_resource')
         .select(
           `
@@ -130,7 +131,7 @@ export async function computeAvailability(
     const dayOfWeek = getDayName(targetDate.getDay());
 
     // 4. Get opening hours for each resource
-    const { data: openingHours, error: hoursError } = await supabaseServer
+    const { data: openingHours, error: hoursError } = await supabase
       .from('opening_hours')
       .select('*')
       .eq('business_id', BUSINESS_ID)
@@ -150,7 +151,7 @@ export async function computeAvailability(
     const endOfDay = `${date}T23:59:59+02:00`;
 
     const { data: existingBookings, error: bookingsError } =
-      await supabaseServer
+      await supabase
         .from('booking')
         .select('*')
         .eq('business_id', BUSINESS_ID)
@@ -167,7 +168,7 @@ export async function computeAvailability(
     }
 
     // 6. Get blackout periods for the date
-    const { data: blackouts, error: blackoutsError } = await supabaseServer
+    const { data: blackouts, error: blackoutsError } = await supabase
       .from('blackout')
       .select('*')
       .eq('business_id', BUSINESS_ID)

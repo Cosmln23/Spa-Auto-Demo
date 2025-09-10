@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import DesktopShell from '@/components/shells/DesktopShell';
 import CalendarMonth from '@/components/calendar/CalendarMonth';
 import AvailabilityList from '@/components/calendar/AvailabilityList';
-import { supabaseBrowser } from '@/lib/supabaseClient';
+import { getSupabaseBrowser } from '@/lib/supabaseClient';
 import type { Service, BookingWithDetails } from '@/lib/types';
 
 type NavItem = { id: string; label: string; badge?: string };
@@ -30,9 +30,10 @@ export default function DesktopDashboardPage() {
   // Check authentication and fetch user
   useEffect(() => {
     const checkAuth = async () => {
+      const supabase = getSupabaseBrowser();
       const {
         data: { user },
-      } = await supabaseBrowser.auth.getUser();
+      } = await supabase.auth.getUser();
       if (!user) {
         router.push('/auth');
         return;
@@ -66,8 +67,9 @@ export default function DesktopDashboardPage() {
         setLoading(true);
 
         // Fetch services
+        const supabase = getSupabaseBrowser();
         const { data: servicesData, error: servicesError } =
-          await supabaseBrowser
+          await supabase
             .from('service')
             .select('*')
             .eq('is_active', true)
@@ -78,7 +80,7 @@ export default function DesktopDashboardPage() {
 
         // Fetch today's bookings
         const today = new Date().toISOString().split('T')[0];
-        const { data: todayData, error: todayError } = await supabaseBrowser
+        const { data: todayData, error: todayError } = await supabase
           .from('booking')
           .select(
             `
@@ -99,7 +101,7 @@ export default function DesktopDashboardPage() {
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-        const { data: allData, error: allError } = await supabaseBrowser
+        const { data: allData, error: allError } = await supabase
           .from('booking')
           .select(
             `
@@ -126,7 +128,8 @@ export default function DesktopDashboardPage() {
   }, []);
   // Logout function
   const handleLogout = async () => {
-    await supabaseBrowser.auth.signOut();
+    const supabase = getSupabaseBrowser();
+    await supabase.auth.signOut();
     router.push('/auth');
   };
 

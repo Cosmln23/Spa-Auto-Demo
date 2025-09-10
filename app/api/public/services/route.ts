@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
-import { supabaseServer } from '@/lib/supabaseClient';
+import { getSupabaseServer } from '@/lib/supabaseClient';
 import type { Service } from '@/lib/types';
 
 export async function GET() {
   try {
-    const { data: services, error } = await supabaseServer
+    const supabase = getSupabaseServer();
+    const { data: services, error } = await supabase
       .from('service')
       .select('*')
       .eq('is_active', true)
