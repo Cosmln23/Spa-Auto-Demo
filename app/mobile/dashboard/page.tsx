@@ -128,7 +128,8 @@ export default function MobileDashboardPage() {
 
   // Logout function
   const handleLogout = async () => {
-    await supabaseBrowser.auth.signOut();
+    const supabase = getSupabaseBrowser();
+    await supabase.auth.signOut();
     router.push('/auth');
   };
 
