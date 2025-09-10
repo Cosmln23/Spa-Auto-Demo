@@ -1,12 +1,16 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import MobileShell from '@/components/shells/MobileShell';
 import CalendarMonth from '@/components/calendar/CalendarMonth';
 import AvailabilityList from '@/components/calendar/AvailabilityList';
+import { supabaseBrowser } from '@/lib/supabaseClient';
+import type { Service, BookingWithDetails } from '@/lib/types';
 
 type NavItem = { id: string; label: string };
 
 export default function MobileDashboardPage() {
+  const router = useRouter();
   const [selected, setSelected] = useState<Date>(new Date());
   const [currentSection, setCurrentSection] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<string>('');
@@ -14,6 +18,29 @@ export default function MobileDashboardPage() {
   const [openAddClient, setOpenAddClient] = useState<boolean>(false);
   const [openEditProgram, setOpenEditProgram] = useState<boolean>(false);
   const [openEditSettings, setOpenEditSettings] = useState<boolean>(false);
+
+  // Real data state
+  const [services, setServices] = useState<Service[]>([]);
+  const [todayBookings, setTodayBookings] = useState<BookingWithDetails[]>([]);
+  const [allBookings, setAllBookings] = useState<BookingWithDetails[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('owner@example.com');
+
+  // Check authentication and fetch user
+  useEffect(() => {
+    const checkAuth = async () => {
+      const {
+        data: { user },
+      } = await supabaseBrowser.auth.getUser();
+      if (!user) {
+        router.push('/auth');
+        return;
+      }
+      setUserEmail(user.email || 'owner@example.com');
+    };
+    checkAuth();
+  }, [router]);
 
   // Update clock every second
   useEffect(() => {
@@ -31,10 +58,82 @@ export default function MobileDashboardPage() {
     return () => clearInterval(interval);
   }, []);
 
+  // Fetch data on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        // Fetch services
+        const { data: servicesData, error: servicesError } =
+          await supabaseBrowser
+            .from('service')
+            .select('*')
+            .eq('is_active', true)
+            .order('name');
+
+        if (servicesError) throw servicesError;
+        setServices(servicesData || []);
+
+        // Fetch today's bookings
+        const today = new Date().toISOString().split('T')[0];
+        const { data: todayData, error: todayError } = await supabaseBrowser
+          .from('booking')
+          .select(
+            `
+            *,
+            customer (*),
+            service (*),
+            resource (*)
+          `
+          )
+          .gte('starts_at', `${today}T00:00:00`)
+          .lt('starts_at', `${today}T23:59:59`)
+          .order('starts_at');
+
+        if (todayError) throw todayError;
+        setTodayBookings(todayData || []);
+
+        // Fetch all bookings (last 30 days + future)
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        const { data: allData, error: allError } = await supabaseBrowser
+          .from('booking')
+          .select(
+            `
+            *,
+            customer (*),
+            service (*),
+            resource (*)
+          `
+          )
+          .gte('starts_at', thirtyDaysAgo.toISOString())
+          .order('starts_at', { ascending: false });
+
+        if (allError) throw allError;
+        setAllBookings(allData || []);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError('Eroare la încărcarea datelor');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Logout function
+  const handleLogout = async () => {
+    await supabaseBrowser.auth.signOut();
+    router.push('/auth');
+  };
+
   const todayYmd = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const eventsByDate = useMemo(
-    () => ({ [todayYmd]: 3 }) as Record<string, number>,
-    [todayYmd]
+    () => ({ [todayYmd]: todayBookings.length }) as Record<string, number>,
+    [todayYmd, todayBookings]
   );
 
   const sections: NavItem[] = useMemo(
@@ -51,12 +150,14 @@ export default function MobileDashboardPage() {
   );
 
   // Demo data (same as desktop)
-  const services = useMemo(
-    () => [
-      { name: 'Spălare exterior', price: 30, duration: 20 },
-      { name: 'Spălare completă', price: 60, duration: 45 },
-    ],
-    []
+  const servicesForTable = useMemo(
+    () =>
+      services.map((service) => ({
+        name: service.name,
+        price: service.price ? `${service.price} RON` : 'N/A',
+        duration: `${service.duration_minutes} min`,
+      })),
+    [services]
   );
   const clients = useMemo(
     () => [
@@ -85,27 +186,14 @@ export default function MobileDashboardPage() {
     []
   );
   const todaysBookings = useMemo(
-    () => [
-      {
-        name: 'Andrei Pop',
-        service: 'Spălare exterior',
-        time: '10:00–10:20',
-        price: 30,
-      },
-      {
-        name: 'Maria Ionescu',
-        service: 'Spălare completă',
-        time: '12:30–13:15',
-        price: 60,
-      },
-      {
-        name: 'Ion Georgescu',
-        service: 'Spălare exterior',
-        time: '16:00–16:20',
-        price: 30,
-      },
-    ],
-    []
+    () =>
+      todayBookings.map((booking) => ({
+        name: booking.customer.name,
+        service: booking.service.name,
+        time: `${new Date(booking.starts_at).toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' })}–${new Date(booking.ends_at).toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' })}`,
+        price: booking.service.price || 0,
+      })),
+    [todayBookings]
   );
   const weeklyProgram = useMemo(
     () => [
@@ -120,30 +208,27 @@ export default function MobileDashboardPage() {
     []
   );
   const history = useMemo(
-    () => [
-      {
-        date: todayYmd,
-        time: '09:00',
-        name: 'Elena D.',
-        service: 'Spălare exterior',
-        status: 'confirmată',
-      },
-      {
-        date: todayYmd,
-        time: '11:00',
-        name: 'C. Mihai',
-        service: 'Spălare completă',
-        status: 'confirmată',
-      },
-      {
-        date: todayYmd,
-        time: '15:00',
-        name: 'Radu P.',
-        service: 'Spălare exterior',
-        status: 'anulată',
-      },
-    ],
-    [todayYmd]
+    () =>
+      allBookings.map((booking) => ({
+        date: new Date(booking.starts_at).toLocaleDateString('ro-RO'),
+        time: new Date(booking.starts_at).toLocaleTimeString('ro-RO', {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        name: booking.customer.name,
+        service: booking.service.name,
+        status:
+          booking.status === 'completed'
+            ? 'finalizată'
+            : booking.status === 'confirmed'
+              ? 'confirmată'
+              : booking.status === 'pending'
+                ? 'în așteptare'
+                : booking.status === 'cancelled'
+                  ? 'anulată'
+                  : booking.status,
+      })),
+    [allBookings]
   );
 
   // Swipe handling
@@ -231,7 +316,7 @@ export default function MobileDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="text-neutral-300">
-                  {services.map((s) => (
+                  {servicesForTable.map((s) => (
                     <tr key={s.name} className="border-b border-white/5">
                       <td className="py-1 px-1">{s.name}</td>
                       <td className="py-1 px-1">{s.price}</td>
@@ -418,7 +503,7 @@ export default function MobileDashboardPage() {
                     </tr>
                     <tr className="border-b border-white/5">
                       <td className="py-1 px-1">Email</td>
-                      <td className="py-1 px-1">owner@example.com</td>
+                      <td className="py-1 px-1">{userEmail}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -453,7 +538,7 @@ export default function MobileDashboardPage() {
             <div className="size-4 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
               <span className="text-xs font-medium text-white">O</span>
             </div>
-            <span className="text-xs text-neutral-200">owner@example.com</span>
+            <span className="text-xs text-neutral-200">{userEmail}</span>
           </div>
         </div>
       </div>
@@ -770,7 +855,7 @@ export default function MobileDashboardPage() {
                   <div>
                     <label className="text-xs text-neutral-400">Email</label>
                     <input
-                      defaultValue="owner@example.com"
+                      defaultValue={userEmail}
                       type="email"
                       className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-xs"
                     />

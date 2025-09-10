@@ -53,3 +53,4 @@ git push -u origin main
 
 Write-Host "✅ Repository configurat cu succes!" -ForegroundColor Green
 Write-Host "🌐 Accesează: https://github.com/Cosmln23/Spa-Auto-Demo" -ForegroundColor Cyan
+

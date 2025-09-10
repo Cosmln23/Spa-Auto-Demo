@@ -1,12 +1,16 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import DesktopShell from '@/components/shells/DesktopShell';
 import CalendarMonth from '@/components/calendar/CalendarMonth';
 import AvailabilityList from '@/components/calendar/AvailabilityList';
+import { supabaseBrowser } from '@/lib/supabaseClient';
+import type { Service, BookingWithDetails } from '@/lib/types';
 
 type NavItem = { id: string; label: string; badge?: string };
 
 export default function DesktopDashboardPage() {
+  const router = useRouter();
   const [selected, setSelected] = useState<Date>(new Date());
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const [openAddService, setOpenAddService] = useState<boolean>(false);
@@ -14,6 +18,29 @@ export default function DesktopDashboardPage() {
   const [openEditProgram, setOpenEditProgram] = useState<boolean>(false);
   const [openEditSettings, setOpenEditSettings] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<string>('');
+
+  // Real data state
+  const [services, setServices] = useState<Service[]>([]);
+  const [todayBookings, setTodayBookings] = useState<BookingWithDetails[]>([]);
+  const [allBookings, setAllBookings] = useState<BookingWithDetails[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('owner@example.com');
+
+  // Check authentication and fetch user
+  useEffect(() => {
+    const checkAuth = async () => {
+      const {
+        data: { user },
+      } = await supabaseBrowser.auth.getUser();
+      if (!user) {
+        router.push('/auth');
+        return;
+      }
+      setUserEmail(user.email || 'owner@example.com');
+    };
+    checkAuth();
+  }, [router]);
 
   // Update clock every second
   useEffect(() => {
@@ -31,10 +58,82 @@ export default function DesktopDashboardPage() {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Fetch data on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        // Fetch services
+        const { data: servicesData, error: servicesError } =
+          await supabaseBrowser
+            .from('service')
+            .select('*')
+            .eq('is_active', true)
+            .order('name');
+
+        if (servicesError) throw servicesError;
+        setServices(servicesData || []);
+
+        // Fetch today's bookings
+        const today = new Date().toISOString().split('T')[0];
+        const { data: todayData, error: todayError } = await supabaseBrowser
+          .from('booking')
+          .select(
+            `
+            *,
+            customer (*),
+            service (*),
+            resource (*)
+          `
+          )
+          .gte('starts_at', `${today}T00:00:00`)
+          .lt('starts_at', `${today}T23:59:59`)
+          .order('starts_at');
+
+        if (todayError) throw todayError;
+        setTodayBookings(todayData || []);
+
+        // Fetch all bookings (last 30 days + future)
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        const { data: allData, error: allError } = await supabaseBrowser
+          .from('booking')
+          .select(
+            `
+            *,
+            customer (*),
+            service (*),
+            resource (*)
+          `
+          )
+          .gte('starts_at', thirtyDaysAgo.toISOString())
+          .order('starts_at', { ascending: false });
+
+        if (allError) throw allError;
+        setAllBookings(allData || []);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError('Eroare la încărcarea datelor');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+  // Logout function
+  const handleLogout = async () => {
+    await supabaseBrowser.auth.signOut();
+    router.push('/auth');
+  };
+
   const todayYmd = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const eventsByDate = useMemo(
-    () => ({ [todayYmd]: 3 }) as Record<string, number>,
-    [todayYmd]
+    () => ({ [todayYmd]: todayBookings.length }) as Record<string, number>,
+    [todayYmd, todayBookings]
   );
   const [active, setActive] = useState<string>('overview');
 
@@ -52,12 +151,14 @@ export default function DesktopDashboardPage() {
   );
 
   // Demo data
-  const services = useMemo(
-    () => [
-      { name: 'Spălare exterior', price: 30, duration: 20 },
-      { name: 'Spălare completă', price: 60, duration: 45 },
-    ],
-    []
+  const servicesForTable = useMemo(
+    () =>
+      services.map((service) => ({
+        name: service.name,
+        price: service.price ? `${service.price} RON` : 'N/A',
+        duration: `${service.duration_minutes} min`,
+      })),
+    [services]
   );
   const clients = useMemo(
     () => [
@@ -86,27 +187,14 @@ export default function DesktopDashboardPage() {
     []
   );
   const todaysBookings = useMemo(
-    () => [
-      {
-        name: 'Andrei Pop',
-        service: 'Spălare exterior',
-        time: '10:00–10:20',
-        price: 30,
-      },
-      {
-        name: 'Maria Ionescu',
-        service: 'Spălare completă',
-        time: '12:30–13:15',
-        price: 60,
-      },
-      {
-        name: 'Ion Georgescu',
-        service: 'Spălare exterior',
-        time: '16:00–16:20',
-        price: 30,
-      },
-    ],
-    []
+    () =>
+      todayBookings.map((booking) => ({
+        name: booking.customer.name,
+        service: booking.service.name,
+        time: `${new Date(booking.starts_at).toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' })}–${new Date(booking.ends_at).toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' })}`,
+        price: booking.service.price || 0,
+      })),
+    [todayBookings]
   );
   const weeklyProgram = useMemo(
     () => [
@@ -121,30 +209,27 @@ export default function DesktopDashboardPage() {
     []
   );
   const history = useMemo(
-    () => [
-      {
-        date: todayYmd,
-        time: '09:00',
-        name: 'Elena D.',
-        service: 'Spălare exterior',
-        status: 'confirmată',
-      },
-      {
-        date: todayYmd,
-        time: '11:00',
-        name: 'C. Mihai',
-        service: 'Spălare completă',
-        status: 'confirmată',
-      },
-      {
-        date: todayYmd,
-        time: '15:00',
-        name: 'Radu P.',
-        service: 'Spălare exterior',
-        status: 'anulată',
-      },
-    ],
-    [todayYmd]
+    () =>
+      allBookings.map((booking) => ({
+        date: new Date(booking.starts_at).toLocaleDateString('ro-RO'),
+        time: new Date(booking.starts_at).toLocaleTimeString('ro-RO', {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        name: booking.customer.name,
+        service: booking.service.name,
+        status:
+          booking.status === 'completed'
+            ? 'finalizată'
+            : booking.status === 'confirmed'
+              ? 'confirmată'
+              : booking.status === 'pending'
+                ? 'în așteptare'
+                : booking.status === 'cancelled'
+                  ? 'anulată'
+                  : booking.status,
+      })),
+    [allBookings]
   );
 
   useEffect(() => {
@@ -218,10 +303,28 @@ export default function DesktopDashboardPage() {
             <div className="size-6 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
               <span className="text-xs font-medium text-white">O</span>
             </div>
-            <span className="text-sm text-neutral-200">owner@example.com</span>
+            <span className="text-sm text-neutral-200">{userEmail}</span>
           </div>
         </div>
       </header>
+
+      {loading && (
+        <div className="flex items-center justify-center py-8">
+          <div className="text-neutral-400">Se încarcă datele...</div>
+        </div>
+      )}
+
+      {error && (
+        <div className="mx-4 p-4 rounded-lg bg-red-900/20 border border-red-500/20 text-red-400">
+          {error}
+          <button
+            onClick={() => window.location.reload()}
+            className="ml-4 text-red-300 hover:text-red-200 underline"
+          >
+            Reîncarcă
+          </button>
+        </div>
+      )}
 
       <div
         className={[
@@ -343,7 +446,7 @@ export default function DesktopDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="text-neutral-300">
-                  {services.map((s) => (
+                  {servicesForTable.map((s) => (
                     <tr key={s.name} className="border-b border-white/5">
                       <td className="py-2 px-2">{s.name}</td>
                       <td className="py-2 px-2">{s.price}</td>
@@ -536,7 +639,7 @@ export default function DesktopDashboardPage() {
                     </tr>
                     <tr className="border-b border-white/5">
                       <td className="py-2 px-2">Email</td>
-                      <td className="py-2 px-2">owner@example.com</td>
+                      <td className="py-2 px-2">{userEmail}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -801,7 +904,7 @@ export default function DesktopDashboardPage() {
                   <div>
                     <label className="text-xs text-neutral-400">Email</label>
                     <input
-                      defaultValue="owner@example.com"
+                      defaultValue={userEmail}
                       type="email"
                       className="mt-1 w-full rounded-md bg-neutral-900 border border-white/10 px-2 py-1 text-sm"
                     />

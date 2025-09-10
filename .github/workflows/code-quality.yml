@@ -37,3 +37,4 @@ jobs:
       run: |
         npm run build
         npx @next/bundle-analyzer || true
+
