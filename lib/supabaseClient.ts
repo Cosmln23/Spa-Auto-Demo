@@ -6,7 +6,8 @@ export function getSupabaseBrowser(): SupabaseClient {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl) throw new Error('Missing env.NEXT_PUBLIC_SUPABASE_URL');
-  if (!supabaseAnonKey) throw new Error('Missing env.NEXT_PUBLIC_SUPABASE_ANON_KEY');
+  if (!supabaseAnonKey)
+    throw new Error('Missing env.NEXT_PUBLIC_SUPABASE_ANON_KEY');
 
   return createClient(supabaseUrl, supabaseAnonKey, {
     auth: { persistSession: true, autoRefreshToken: true },
@@ -18,7 +19,8 @@ export function getSupabaseServer(): SupabaseClient {
   const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl) throw new Error('Missing env.NEXT_PUBLIC_SUPABASE_URL');
-  if (!supabaseServiceRoleKey) throw new Error('Missing env.SUPABASE_SERVICE_ROLE_KEY');
+  if (!supabaseServiceRoleKey)
+    throw new Error('Missing env.SUPABASE_SERVICE_ROLE_KEY');
 
   return createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },

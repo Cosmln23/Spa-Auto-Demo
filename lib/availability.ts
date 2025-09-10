@@ -93,11 +93,10 @@ export async function computeAvailability(
     }
 
     // 2. Get available resources for this service
-    const { data: serviceResources, error: resourcesError } =
-      await supabase
-        .from('service_resource')
-        .select(
-          `
+    const { data: serviceResources, error: resourcesError } = await supabase
+      .from('service_resource')
+      .select(
+        `
         resource_id,
         resource:resource_id (
           id,
@@ -106,8 +105,8 @@ export async function computeAvailability(
           is_active
         )
       `
-        )
-        .eq('service_id', serviceId);
+      )
+      .eq('service_id', serviceId);
 
     if (resourcesError || !serviceResources) {
       throw new Error('No resources found for service');
@@ -150,18 +149,17 @@ export async function computeAvailability(
     const startOfDay = `${date}T00:00:00+02:00`;
     const endOfDay = `${date}T23:59:59+02:00`;
 
-    const { data: existingBookings, error: bookingsError } =
-      await supabase
-        .from('booking')
-        .select('*')
-        .eq('business_id', BUSINESS_ID)
-        .gte('starts_at', startOfDay)
-        .lte('starts_at', endOfDay)
-        .in(
-          'resource_id',
-          resources.map((r) => r.id)
-        )
-        .neq('status', 'cancelled');
+    const { data: existingBookings, error: bookingsError } = await supabase
+      .from('booking')
+      .select('*')
+      .eq('business_id', BUSINESS_ID)
+      .gte('starts_at', startOfDay)
+      .lte('starts_at', endOfDay)
+      .in(
+        'resource_id',
+        resources.map((r) => r.id)
+      )
+      .neq('status', 'cancelled');
 
     if (bookingsError) {
       throw new Error('Failed to fetch existing bookings');

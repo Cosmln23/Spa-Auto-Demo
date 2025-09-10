@@ -68,12 +68,11 @@ export default function DesktopDashboardPage() {
 
         // Fetch services
         const supabase = getSupabaseBrowser();
-        const { data: servicesData, error: servicesError } =
-          await supabase
-            .from('service')
-            .select('*')
-            .eq('is_active', true)
-            .order('name');
+        const { data: servicesData, error: servicesError } = await supabase
+          .from('service')
+          .select('*')
+          .eq('is_active', true)
+          .order('name');
 
         if (servicesError) throw servicesError;
         setServices(servicesData || []);

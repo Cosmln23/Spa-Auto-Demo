@@ -74,17 +74,16 @@ export async function POST(request: NextRequest) {
 
       if (existingCustomer) {
         // Update existing customer
-        const { data: updatedCustomer, error: updateError } =
-          await supabase
-            .from('customer')
-            .update({
-              name: data.customer_name,
-              phone: data.customer_phone,
-              license_plate: data.customer_license_plate,
-            })
-            .eq('id', existingCustomer.id)
-            .select('*')
-            .single();
+        const { data: updatedCustomer, error: updateError } = await supabase
+          .from('customer')
+          .update({
+            name: data.customer_name,
+            phone: data.customer_phone,
+            license_plate: data.customer_license_plate,
+          })
+          .eq('id', existingCustomer.id)
+          .select('*')
+          .single();
 
         if (updateError) {
           throw new Error('Failed to update customer');
@@ -120,16 +119,15 @@ export async function POST(request: NextRequest) {
 
       if (existingCustomer) {
         // Update existing customer
-        const { data: updatedCustomer, error: updateError } =
-          await supabase
-            .from('customer')
-            .update({
-              name: data.customer_name,
-              license_plate: data.customer_license_plate,
-            })
-            .eq('id', existingCustomer.id)
-            .select('*')
-            .single();
+        const { data: updatedCustomer, error: updateError } = await supabase
+          .from('customer')
+          .update({
+            name: data.customer_name,
+            license_plate: data.customer_license_plate,
+          })
+          .eq('id', existingCustomer.id)
+          .select('*')
+          .single();
 
         if (updateError) {
           throw new Error('Failed to update customer');
@@ -172,16 +170,15 @@ export async function POST(request: NextRequest) {
     }
 
     // 4. Check for booking conflicts
-    const { data: conflictingBookings, error: conflictError } =
-      await supabase
-        .from('booking')
-        .select('id')
-        .eq('business_id', BUSINESS_ID)
-        .eq('resource_id', data.resource_id)
-        .neq('status', 'cancelled')
-        .or(
-          `and(starts_at.lte.${endsAt.toISOString()},ends_at.gte.${startsAt.toISOString()})`
-        );
+    const { data: conflictingBookings, error: conflictError } = await supabase
+      .from('booking')
+      .select('id')
+      .eq('business_id', BUSINESS_ID)
+      .eq('resource_id', data.resource_id)
+      .neq('status', 'cancelled')
+      .or(
+        `and(starts_at.lte.${endsAt.toISOString()},ends_at.gte.${startsAt.toISOString()})`
+      );
 
     if (conflictError) {
       throw new Error('Failed to check for conflicts');
